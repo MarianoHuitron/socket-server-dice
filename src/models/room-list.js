@@ -17,6 +17,7 @@ class RoomList {
             value: ''
         });
         this.rooms.push(newRoom);
+        // if(this.)
         return newRoom;
     }
 
