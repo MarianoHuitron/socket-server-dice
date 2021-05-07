@@ -9,6 +9,7 @@ class UserList {
     }
 
 
+    // add user to list
     addUser(nickname,id) {
         const newUser = new User(nickname,id);
         if(this.users.length == 0) {
@@ -22,10 +23,11 @@ class UserList {
         return this.users;
     }
 
+    // remove user from the list
     removeUser(id) {
 
+        // get the index 
         let index = null;
-        
         this.users.map((user, i) => {
             if(user.id === id) {
                 index = i;
@@ -34,6 +36,8 @@ class UserList {
 
         if(index === null) return this.users;
 
+
+        // validate if the user is the next for lauch the dice
         if(this.users[index].active && (this.users.length -1) > index) {
             this.users[index+1].active = true;
         } else if(this.users[index].active && (this.users.length - 1) === index) {
@@ -44,9 +48,11 @@ class UserList {
         return this.users;
     }
 
-    changeActive() {
-        let index = null;
 
+    // Update the user active means setting wich user is next to launch the dice
+    changeActive() {
+        // Get the user index
+        let index = null;
         this.users.map((user,i) => {
             if(user.active) {
                 index = i;
@@ -55,8 +61,10 @@ class UserList {
 
         if(index === null) return this.users;
 
+        // set to false
         this.users[index].active = false;
 
+        // Set true the next user
         if((this.users.length - 1) === index) {
             this.users[0].active = true;
         } else {
@@ -64,10 +72,9 @@ class UserList {
         }
 
         return this.users;
-
-
     }
 
+    // Set the last value for the user
     setValue(position,id) {
         this.users = this.users.map((user) => {
             if(user.id === id) {

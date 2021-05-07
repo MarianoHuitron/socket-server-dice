@@ -1,13 +1,10 @@
-const RoomList = require("./room-list");
 const UserList = require("./user-list");
-
 
 class Sockets {
 
     constructor( io ) {
         this.io = io;
 
-        this.roomList = new RoomList();
         this.userList = new UserList();
 
         this.socketEvents();
@@ -16,18 +13,7 @@ class Sockets {
     socketEvents() {
 
         this.io.on('connection', (socket) => {
-            console.log('connected')
-
-
-
-
-             // create room
-            socket.on('create-room', ({nickName}) => {
-                const room = this.roomList.createRoom(nickName)
-                socket.join(room.id);
-                socket.emit('room-created', room);
-            });
-
+            console.log('connected');
 
             // join to room
             socket.on('join-room', (nickName) => {
@@ -42,21 +28,16 @@ class Sockets {
                 this.userList.changeActive();
                 const users = this.userList.setValue(position,user);
                 this.io.emit('change-position', ({position, users}));
-                
             })
 
-            
+            // remove user when disconnect
             socket.on('disconnect', () => {
                 const users = this.userList.removeUser(socket.id);
                 this.io.emit('user-joined', users);
                 console.log('desconnected')
             })
 
-        });
-
-
-
-       
+        });       
 
     }
 
